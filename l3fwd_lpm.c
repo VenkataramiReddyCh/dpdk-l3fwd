@@ -71,6 +71,7 @@ struct ipv6_l3fwd_lpm_route {
 
 
 /*#define MAX_FLOW  256 */
+/*#define MAX_FLOW 1 */
 
 #define MAX_FLOW (1024*10)
 
@@ -100,7 +101,10 @@ void ipv4_route_init(){
 	int nr_flow = MAX_FLOW;
 
 	int i,j,k,ix, i_max, k_max;
-
+ 
+	if (nr_flow == 1)
+	    return
+ 
 	if (nr_flow <= 256 ){
 		i_max = 256 ;
 		k_max = 2;
@@ -147,6 +151,9 @@ void ipv6_route_init(void){
 	int i,j,k,ix, i_max, k_max, nr_flow;
 	nr_flow = MAX_FLOW;
 
+	if (nr_flow == 1)
+		return
+		
 	if (nr_flow <= 256 ){
 		i_max = 256 ;
 		k_max = 2;

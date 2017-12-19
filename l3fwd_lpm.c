@@ -103,7 +103,7 @@ void ipv4_route_init(){
 	int i,j,k,ix, i_max, k_max;
  
 	if (nr_flow == 1)
-	    return
+	    return;
  
 	if (nr_flow <= 256 ){
 		i_max = 256 ;
@@ -152,7 +152,7 @@ void ipv6_route_init(void){
 	nr_flow = MAX_FLOW;
 
 	if (nr_flow == 1)
-		return
+		return;
 		
 	if (nr_flow <= 256 ){
 		i_max = 256 ;

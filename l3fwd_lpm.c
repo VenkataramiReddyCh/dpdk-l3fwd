@@ -70,18 +70,14 @@ struct ipv6_l3fwd_lpm_route {
 };
 
 
-/*#define MAX_FLOW  256 */
-/*#define MAX_FLOW 1 */
+#define MAX_FLOW 1024*10     /* 1 256 1024 10*1024 */
 
-#define MAX_FLOW (1024*10)
-
-#define OOPS_ZERO (MAX_FLOW/256)
 
 #define NUM_PORTS 2
 
-#define EXTRA_DUMMY 10
 
-static struct ipv4_l3fwd_lpm_route ipv4_l3fwd_lpm_route_array[(MAX_FLOW - OOPS_ZERO )* NUM_PORTS] = {
+
+static struct ipv4_l3fwd_lpm_route ipv4_l3fwd_lpm_route_array[MAX_FLOW * NUM_PORTS ] = {
 	{IPv4(1, 1, 1, 0), 24, 0},
 	{IPv4(2, 1, 1, 0), 24, 1},
 	{IPv4(3, 1, 1, 0), 24, 2},
@@ -105,14 +101,9 @@ void ipv4_route_init(){
 	if (nr_flow == 1)
 	    return;
  
-	if (nr_flow <= 256 ){
-		i_max = 256 ;
-		k_max = 2;
-	}
-	else{
-	   k_max = (nr_flow /256) + 1;
-           i_max = 256;
-	}
+        k_max = (nr_flow /256) ;
+        i_max = 256;
+	
 	
 
 	ix = 0;
@@ -130,9 +121,10 @@ void ipv4_route_init(){
 		
 	    }
 	}
+	/*printf( "-------------------- max used %d \n",ix);*/
 }
 
-static struct ipv6_l3fwd_lpm_route ipv6_l3fwd_lpm_route_array[(MAX_FLOW - OOPS_ZERO) * NUM_PORTS] = {
+static struct ipv6_l3fwd_lpm_route ipv6_l3fwd_lpm_route_array[MAX_FLOW  * NUM_PORTS] = {
 	{{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 48, 0},
 	{{2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 48, 1},
 	{{3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 48, 2},
@@ -154,14 +146,8 @@ void ipv6_route_init(void){
 	if (nr_flow == 1)
 		return;
 		
-	if (nr_flow <= 256 ){
-		i_max = 256 ;
-		k_max = 2;
-	}
-	else{
-	   k_max = (nr_flow /256) + 1;
-           i_max = 256;
-	}
+	k_max = nr_flow /256;
+        i_max = 256;
 	
 
 	ix = 0;

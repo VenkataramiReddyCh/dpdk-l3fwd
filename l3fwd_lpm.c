@@ -170,7 +170,7 @@ void ipv6_route_init(void){
 	    
 	    for (k = 0; k< k_max; k++){
                
-		for (0 = 1; i< i_max; i++){
+		for (i = 0; i< i_max; i++){
 			ipv6_l3fwd_lpm_route_array[ ix ].ip[0] = j+1;
 			ipv6_l3fwd_lpm_route_array[ ix ].ip[1] = 1;
 			ipv6_l3fwd_lpm_route_array[ ix ].ip[2] = 1;

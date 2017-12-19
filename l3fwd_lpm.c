@@ -119,9 +119,9 @@ void ipv4_route_init(){
 	
 	for (j = 0 ; j < NUM_PORTS; j++){
 	    
-	    for (k = 1; k< k_max; k++){
+	    for (k = 0; k< k_max; k++){
                
-		for (i = 1; i< i_max; i++){
+		for (i = 0; i< i_max; i++){
 			ipv4_l3fwd_lpm_route_array[ ix ].ip = IPv4(j+1,k,i ,0);
 			ipv4_l3fwd_lpm_route_array[ ix ].depth = 24;
 			ipv4_l3fwd_lpm_route_array[ ix ].if_out = j;
@@ -168,9 +168,9 @@ void ipv6_route_init(void){
 	
 	for (j = 0 ; j < NUM_PORTS; j++){
 	    
-	    for (k = 1; k< k_max; k++){
+	    for (k = 0; k< k_max; k++){
                
-		for (i = 1; i< i_max; i++){
+		for (0 = 1; i< i_max; i++){
 			ipv6_l3fwd_lpm_route_array[ ix ].ip[0] = j+1;
 			ipv6_l3fwd_lpm_route_array[ ix ].ip[1] = 1;
 			ipv6_l3fwd_lpm_route_array[ ix ].ip[2] = 1;

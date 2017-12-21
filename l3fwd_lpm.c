@@ -70,7 +70,7 @@ struct ipv6_l3fwd_lpm_route {
 };
 
 
-#define MAX_FLOW 1024*10     /* 1 256 1024 10*1024 */
+#define MAX_FLOW 256     /* 1 256 1024 10*1024 */
 
 
 #define NUM_PORTS 2
@@ -97,7 +97,7 @@ void ipv4_route_init(){
 	int nr_flow = MAX_FLOW;
 
 	int i,j,k,ix, i_max, k_max;
- 
+ 	
 	if (nr_flow == 1)
 	    return;
  
@@ -111,7 +111,10 @@ void ipv4_route_init(){
 	for (j = 0 ; j < NUM_PORTS; j++){
 	    
 	    for (k = 0; k< k_max; k++){
-               
+		
+                /* for the case the k_max = 1  *we will use only 1 so the route will be x.1.1.i */
+		if (k_max==1)
+		  k=1;
 		for (i = 0; i< i_max; i++){
 			ipv4_l3fwd_lpm_route_array[ ix ].ip = IPv4(j+1,k,i ,0);
 			ipv4_l3fwd_lpm_route_array[ ix ].depth = 24;
@@ -155,25 +158,29 @@ void ipv6_route_init(void){
 	for (j = 0 ; j < NUM_PORTS; j++){
 	    
 	    for (k = 0; k< k_max; k++){
-               
-		for (i = 0; i< i_max; i++){
-			ipv6_l3fwd_lpm_route_array[ ix ].ip[0] = j+1;
-			ipv6_l3fwd_lpm_route_array[ ix ].ip[1] = 1;
-			ipv6_l3fwd_lpm_route_array[ ix ].ip[2] = 1;
-			ipv6_l3fwd_lpm_route_array[ ix ].ip[4] = 1;
-			ipv6_l3fwd_lpm_route_array[ ix ].ip[5] = 1;
-			ipv6_l3fwd_lpm_route_array[ ix ].ip[6] = 1;
-			ipv6_l3fwd_lpm_route_array[ ix ].ip[7] = 1;
-			ipv6_l3fwd_lpm_route_array[ ix ].ip[8] = 1;
-			ipv6_l3fwd_lpm_route_array[ ix ].ip[9] = 1;
-			ipv6_l3fwd_lpm_route_array[ ix ].ip[10] = 1;
-			ipv6_l3fwd_lpm_route_array[ ix ].ip[11] = 1;
-			ipv6_l3fwd_lpm_route_array[ ix ].ip[12] = 1;
-			ipv6_l3fwd_lpm_route_array[ ix ].ip[13] = 1;
-			ipv6_l3fwd_lpm_route_array[ ix ].ip[14] = k;
-			ipv6_l3fwd_lpm_route_array[ ix ].ip[15] = i;
 
-			ipv6_l3fwd_lpm_route_array[ ix ].depth = 24;
+		for (i = 0; i< i_max; i++){
+			/* the following format is used 0x2001:xxxx::0  for second port 0x2002:xxxx::0*/
+
+ 
+			ipv6_l3fwd_lpm_route_array[ ix ].ip[0] = 0x20; 
+			ipv6_l3fwd_lpm_route_array[ ix ].ip[1] = j+1;
+			ipv6_l3fwd_lpm_route_array[ ix ].ip[2] = k;
+			ipv6_l3fwd_lpm_route_array[ ix ].ip[3] = i;
+			ipv6_l3fwd_lpm_route_array[ ix ].ip[4] = 0;
+			ipv6_l3fwd_lpm_route_array[ ix ].ip[5] = 0;
+			ipv6_l3fwd_lpm_route_array[ ix ].ip[6] = 0;
+			ipv6_l3fwd_lpm_route_array[ ix ].ip[7] = 0;
+			ipv6_l3fwd_lpm_route_array[ ix ].ip[8] = 0;
+			ipv6_l3fwd_lpm_route_array[ ix ].ip[9] = 0;
+			ipv6_l3fwd_lpm_route_array[ ix ].ip[10] = 0;
+			ipv6_l3fwd_lpm_route_array[ ix ].ip[11] = 0;
+			ipv6_l3fwd_lpm_route_array[ ix ].ip[12] = 0;
+			ipv6_l3fwd_lpm_route_array[ ix ].ip[13] = 0;
+			ipv6_l3fwd_lpm_route_array[ ix ].ip[14] = 0;
+			ipv6_l3fwd_lpm_route_array[ ix ].ip[15] = 0;
+
+			ipv6_l3fwd_lpm_route_array[ ix ].depth = 64;
 			ipv6_l3fwd_lpm_route_array[ ix ].if_out = j;
 			ix++;
 		}
